@@ -4,3 +4,5 @@ class CommandManager {
         return msgContent.startsWith('!')
     };
 }
+
+export { CommandManager };

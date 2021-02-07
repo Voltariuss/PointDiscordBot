@@ -1,3 +1,7 @@
+import { Command } from './Command';
+import { CmdVote } from './CmdVote';
+import { CmdBump } from './CmdBump';
+
 class CommandFactory {
 
     public static getCommand(msgContent: string): Command | null {
