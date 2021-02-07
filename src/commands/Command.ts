@@ -1,5 +1,16 @@
-interface Command {
-    execute(): boolean;
+import { User } from 'discord.js';
+
+abstract class Command {
+
+    protected readonly args: string[];
+    protected author: User;
+
+    constructor(args: string[], author: User) {
+        this.args = args;
+        this.author = author;
+    }
+    
+    public abstract execute(): void;
 };
 
 export { Command };
