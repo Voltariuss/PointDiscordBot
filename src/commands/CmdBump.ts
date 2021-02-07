@@ -1,10 +1,8 @@
 import { Command } from './Command';
 
-class CmdBump implements Command {
+class CmdBump extends Command {
 
-    public execute(): boolean {
-        return false;
-    }
+    public execute(): void {}
 }
 
 export { CmdBump };

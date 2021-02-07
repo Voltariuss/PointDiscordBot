@@ -1,10 +1,9 @@
+import { User } from 'discord.js';
 import { Command } from './Command';
 
-class CmdVote implements Command {
-    
-    public execute(): boolean {
-        return false;
-    }
+class CmdVote extends Command {
+
+    public execute(): void {}
 }
 
 export { CmdVote };
