@@ -2,18 +2,19 @@ import { Command } from './Command';
 import { CmdVote } from './CmdVote';
 import { CmdBump } from './CmdBump';
 
+import { User } from 'discord.js';
+
 class CommandFactory {
 
-    public static getCommand(msgContent: string): Command | null {
-        let command: Command | null = null;
-        const args: string[] = msgContent.split(' ');
+    public static createCommand(cmdArgs: string[], author: User): Command | null {
+        let command: Command = null;
 
-        switch (args[0]) {
+        switch (cmdArgs[0]) {
             case '!vote':
-                command = new CmdVote();
+                command = new CmdVote(cmdArgs, author);
                 break;
             case '!bump':
-                command = new CmdBump();
+                command = new CmdBump(cmdArgs, author);
                 break;
         }
         return command;
