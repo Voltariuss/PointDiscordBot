@@ -1,7 +1,4 @@
-import { Command } from './Command';
-import { CmdVote } from './CmdVote';
-import { CmdBump } from './CmdBump';
-
+import { CmdBump, CmdVote, Command } from '..';
 import { User } from 'discord.js';
 
 class CommandFactory {

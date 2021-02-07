@@ -1,5 +1,5 @@
 import { User } from 'discord.js';
-import { Command } from './Command';
+import { Command } from '..';
 
 class CmdVote extends Command {
 

@@ -1,6 +1,4 @@
-import { CommandManager } from './commands/CommandManager';
-import { CommandFactory } from './commands/CommandFactory';
-
+import { Command, CommandFactory, CommandManager } from '.';
 import { Client, Message, User } from 'discord.js';
 
 const client: Client = new Client();
@@ -19,6 +17,7 @@ client.on('message', (message: Message) => {
     const cmdArgs: string[] = CommandManager.getCommandArgs(content);
     const author: User = message.author;
     const command: Command = CommandFactory.createCommand(cmdArgs, author);
+    command.execute();
   }
 });
 
