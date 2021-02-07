@@ -19,3 +19,5 @@ class CommandFactory {
         return command;
     }
 }
+
+export { CommandFactory };
