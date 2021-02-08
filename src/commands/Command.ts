@@ -5,7 +5,7 @@ abstract class Command {
     protected readonly args: string[];
     protected author: User;
 
-    constructor(args: string[], author: User) {
+    public constructor(args: string[], author: User) {
         this.args = args;
         this.author = author;
     }
