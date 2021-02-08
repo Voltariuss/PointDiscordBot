@@ -1,4 +1,4 @@
-import { CmdBump, CmdVote, Command } from '.';
+import { CmdTrade, Command } from '.';
 import { User } from 'discord.js';
 
 class CommandFactory {
@@ -7,11 +7,8 @@ class CommandFactory {
         let command: Command = null;
 
         switch (cmdArgs[0]) {
-            case '!vote':
-                command = new CmdVote(cmdArgs, author);
-                break;
-            case '!bump':
-                command = new CmdBump(cmdArgs, author);
+            case '!trade':
+                command = new CmdTrade(cmdArgs, author);
                 break;
         }
         return command;

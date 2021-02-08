@@ -4,7 +4,7 @@ class CommandManager {
         return msgContent.startsWith('!')
     };
 
-    public static getCommandArgs(cmdContent: string) {
+    public static getCommandArgs(cmdContent: string): string[] {
         return cmdContent.split(' ');
     }
 }

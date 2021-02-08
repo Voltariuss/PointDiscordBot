@@ -17,7 +17,9 @@ client.on('message', (message: Message) => {
     const cmdArgs: string[] = CommandManager.getCommandArgs(content);
     const author: User = message.author;
     const command: Command = CommandFactory.createCommand(cmdArgs, author);
-    command.execute();
+    if (command) {
+      command.execute();
+    }
   }
 });
 

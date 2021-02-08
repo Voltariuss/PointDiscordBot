@@ -1,15 +1,15 @@
 import { Command } from '.';
 import { User } from 'discord.js';
 
-class CmdBump extends Command {
+class CmdTrade extends Command {
 
     public constructor(args: string[], author: User) {
         super(args, author);
     }
 
     public execute(): void {
-        console.log('Test CmdBump');
+        console.log('Test CmdTrade');
     }
 }
 
-export { CmdBump };
+export { CmdTrade };

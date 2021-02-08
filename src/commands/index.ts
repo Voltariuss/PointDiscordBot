@@ -1,5 +1,4 @@
 export * from './Command';
-export * from './CmdBump';
-export * from './CmdVote';
+export * from './CmdTrade';
 export * from './CommandManager';
 export * from './CommandFactory';
