@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS Point
+(
+  userId VARCHAR(255) PRIMARY KEY NOT NULL,
+  number INT DEFAULT 0
+);
+
+ALTER TABLE Point ADD CHECK (number >= 0);
