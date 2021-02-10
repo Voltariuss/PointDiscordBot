@@ -9,7 +9,7 @@ abstract class Command {
         this.args = args;
         this.author = author;
     }
-    
+
     public abstract execute(): void;
 };
 
