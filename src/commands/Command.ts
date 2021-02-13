@@ -1,16 +1,24 @@
-import { User } from 'discord.js';
+import { Message } from 'discord.js';
 
 abstract class Command {
 
     protected readonly args: string[];
-    protected author: User;
+    protected message: Message;
 
-    public constructor(args: string[], author: User) {
+    public constructor(args: string[], message: Message) {
         this.args = args;
-        this.author = author;
+        this.message = message;
     }
 
     public abstract execute(): void;
+
+    public getArgs(): string[] {
+        return this.args;
+    }
+
+    public getMessage(): Message {
+        return this.message;
+    }
 };
 
 export { Command };

@@ -1,5 +1,5 @@
 import { Command, CommandFactory, CommandManager } from '.';
-import { Client, Message, User } from 'discord.js';
+import { Client, Message } from 'discord.js';
 
 const client: Client = new Client();
 
@@ -12,13 +12,14 @@ client.on('ready', () => {
 });
 
 client.on('message', (message: Message) => {
-  const content: string = message.content;
-  if (CommandManager.isCommand(content)) {
-    const cmdArgs: string[] = CommandManager.getCommandArgs(content);
-    const author: User = message.author;
-    const command: Command = CommandFactory.createCommand(cmdArgs, author);
-    if (command) {
-      command.execute();
+  if (message.channel.type === 'text') {
+    const content: string = message.content;
+    if (CommandManager.isCommand(content)) {
+      const cmdArgs: string[] = CommandManager.getCommandArgs(content);
+      const command: Command = CommandFactory.createCommand(cmdArgs, message);
+      if (command) {
+        command.execute();
+      }
     }
   }
 });
