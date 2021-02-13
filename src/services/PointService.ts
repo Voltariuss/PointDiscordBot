@@ -1,33 +1,81 @@
 import { User } from 'discord.js';
-import { DAOPoint, Point } from "../database";
+import { Database } from 'sqlite3';
+import { DAOPoint, DatabaseProvider, Point } from "../database";
 
 class PointService {
 
-  public static getPoint(user: User, callback: (point: Point) => void): void {
-    DAOPoint.read(user.id, callback);
+  public static ERROR_UNKNOWN: string = 'Unknown error';
+
+  public static async getPoint(user: User): Promise<Point> {
+    const databaseProvider: DatabaseProvider = new DatabaseProvider();
+    databaseProvider.openConnection();
+    const database: Database = databaseProvider.getConnection();
+    database.serialize();
+    const daoPoint: DAOPoint = new DAOPoint(database);
+    let point: Point;
+    try {
+      await daoPoint.checkAndCreateEntry(user.id);
+      point = await daoPoint.read(user.id);
+    } catch (err: any) {
+      if (err && err.message) {
+        console.error(err.message);
+      } else {
+        console.error()
+      }
+    } finally {
+      databaseProvider.closeConnection();
+    }
+    return point;
   }
 
-  public static setPoint(user: User, number: number) {
+  public static async setPoint(user: User, number: number): Promise<void> {
     const point: Point = new Point(user.id, number);
-    DAOPoint.update(point);
+    const databaseProvider: DatabaseProvider = new DatabaseProvider();
+    databaseProvider.openConnection();
+    const database: Database = databaseProvider.getConnection();
+    database.serialize();
+    const daoPoint: DAOPoint = new DAOPoint(database);
+    try {
+      await daoPoint.checkAndCreateEntry(user.id);
+      await daoPoint.update(point);
+    } catch (err: any) {
+      if (err && err.message) {
+        console.error(err.message);
+      } else {
+        console.error(PointService.ERROR_UNKNOWN);
+      }
+    } finally {
+      databaseProvider.closeConnection();
+    }
   }
 
-  public static addPoint(user: User, number: number): void {
-    this.getPoint(user, (point: Point) => {
-      let newNumber: number = point.getNumber() + number;
-      this.setPoint(user, newNumber);
-    });
+  public static async addPoint(user: User, number: number): Promise<void> {
+    const point: Point = await this.getPoint(user);
+    const finalNumber: number = point.getNumber() + number;
+    await this.setPoint(user, finalNumber);
   }
 
-  public static removePoint(user: User, number: number): void {
-    this.getPoint(user, (point: Point) => {
-      let newNumber: number = point.getNumber() - number;
-      this.setPoint(user, newNumber);
-    });
+  public static async removePoint(user: User, number: number): Promise<void> {
+    await this.addPoint(user, -number);
   }
 
-  public static removeUser(user: User): void {
-    DAOPoint.delete(user.id);
+  public static async removeUser(user: User): Promise<void> {
+    const databaseProvider: DatabaseProvider = new DatabaseProvider();
+    databaseProvider.openConnection();
+    const database: Database = databaseProvider.getConnection();
+    database.serialize();
+    const daoPoint: DAOPoint = new DAOPoint(database);
+    try {
+      await daoPoint.delete(user.id);
+    } catch (err: any) {
+      if (err && err.message) {
+        console.error(err.message);
+      } else {
+        console.error(PointService.ERROR_UNKNOWN);
+      }
+    } finally {
+      databaseProvider.closeConnection();
+    }
   }
 }
 
