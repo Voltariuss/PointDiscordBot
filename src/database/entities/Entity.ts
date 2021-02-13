@@ -1,3 +1,3 @@
-interface Entity {}
+interface Entity { }
 
 export { Entity };

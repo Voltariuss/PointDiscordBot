@@ -117,7 +117,7 @@ class DAOPoint extends SQLiteDAO {
         })
         .catch((err: Error) => {
           console.error(DAOPoint.ERROR_INSERT);
-              reject(err);
+          reject(err);
         });
     });
   }

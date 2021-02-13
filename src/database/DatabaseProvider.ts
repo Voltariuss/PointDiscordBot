@@ -5,10 +5,10 @@ class DatabaseProvider {
 
   public static DATABASE_FILE: string = path.resolve('./app.db');
   public static SCRIPT_DIR: string = path.resolve('./src/database/scripts');
-  
+
   private database: Database;
 
-  public constructor() {}
+  public constructor() { }
 
   public openConnection(): void {
     console.log('Opening database connection...');
