@@ -22,6 +22,7 @@ class PointService {
       } else {
         console.error()
       }
+      throw err;
     } finally {
       databaseProvider.closeConnection();
     }
@@ -44,6 +45,7 @@ class PointService {
       } else {
         console.error(PointService.ERROR_UNKNOWN);
       }
+      throw err;
     } finally {
       databaseProvider.closeConnection();
     }
@@ -73,6 +75,7 @@ class PointService {
       } else {
         console.error(PointService.ERROR_UNKNOWN);
       }
+      throw err;
     } finally {
       databaseProvider.closeConnection();
     }
