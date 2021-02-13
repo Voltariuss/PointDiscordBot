@@ -1,4 +1,6 @@
-class Point {
+import { Entity } from "./Entity";
+
+class Point implements Entity {
   private userId: string;
   private number: number;
 
