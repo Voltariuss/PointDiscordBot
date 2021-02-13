@@ -1,4 +1,4 @@
 export * from './Command';
-export * from './CmdTrade';
+export * from './CmdPoint';
 export * from './CommandManager';
 export * from './CommandFactory';

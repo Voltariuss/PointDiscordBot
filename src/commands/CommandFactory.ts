@@ -1,14 +1,14 @@
-import { CmdTrade, Command } from '.';
-import { User } from 'discord.js';
+import { CmdPoint, Command } from '.';
+import { Message } from 'discord.js';
 
 class CommandFactory {
 
-    public static createCommand(cmdArgs: string[], author: User): Command | null {
+    public static createCommand(cmdArgs: string[], message: Message): Command | null {
         let command: Command = null;
 
         switch (cmdArgs[0]) {
-            case '!trade':
-                command = new CmdTrade(cmdArgs, author);
+            case '!point':
+                command = new CmdPoint(cmdArgs, message);
                 break;
         }
         return command;
