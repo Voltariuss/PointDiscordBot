@@ -2,7 +2,7 @@ class Point {
   private userId: string;
   private number: number;
 
-  public constructor(userId: string, number: number) {
+  public constructor(userId: string, number: number = 0) {
     this.userId = userId;
     this.number = number;
   }
