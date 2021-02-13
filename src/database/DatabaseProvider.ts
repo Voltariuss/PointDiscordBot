@@ -3,23 +3,24 @@ import * as path from 'path';
 
 class DatabaseProvider {
 
-  public static DATABASE_FILE: string = path.resolve(__dirname, 'app.db');
-  public static SCRIPT_DIR: string = path.resolve(__dirname, '/database/scripts');
+  public static DATABASE_FILE: string = path.resolve('./app.db');
+  public static SCRIPT_DIR: string = path.resolve('./src/database/scripts');
+  
+  private database: Database;
 
-  private static database: Database;
+  public constructor() {}
 
-  public static openConnection(): void {
+  public openConnection(): void {
     console.log('Opening database connection...');
-    this.database = new Database(this.DATABASE_FILE, (err) => {
+    this.database = new Database(DatabaseProvider.DATABASE_FILE, (err) => {
       if (err) {
         return console.error(err.message);
       }
       console.log('Database connection opened.');
     });
-    this.database.serialize();
   }
 
-  public static closeConnection(): void {
+  public closeConnection(): void {
     console.log('Closing database connection.');
     this.database.close((err) => {
       if (err) {
@@ -29,8 +30,7 @@ class DatabaseProvider {
     });
   }
 
-  public static getConnection(): Database {
-    this.openConnection();
+  public getConnection(): Database {
     return this.database;
   }
 }

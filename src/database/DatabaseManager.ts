@@ -1,11 +1,9 @@
-import { DatabaseProvider } from "./DatabaseProvider";
 import { Database } from 'sqlite3';
 import * as _ from 'lodash';
 
 class DatabaseManager {
 
-  public static isTableExists(tableName: string, callback: (isExists: boolean) => void): void {
-    const database: Database = DatabaseProvider.getConnection();
+  public static isTableExists(database: Database, tableName: string, callback: (isExists: boolean) => void): void {
     database.get('SELECT name FROM sqlite_master WHERE type=$type AND name=$name', {
       $type: 'table',
       $name: tableName
