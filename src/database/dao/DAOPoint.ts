@@ -14,6 +14,7 @@ class DAOPoint extends SQLiteDAO {
 
   public static ERROR_CREATE_TABLE: string = `Failed to create "${DAOPoint.TABLE_NAME}" table.`;
   public static ERROR_IS_EXISTS: string = `Failed to check existance of entry in "${DAOPoint.TABLE_NAME}" table.`;
+  public static ERROR_CHECK_AND_CREATE: string = `Failed to check and eventually create entry in "${DAOPoint.TABLE_NAME}" table.`;
   public static ERROR_READ: string = `Failed to read a row in "${DAOPoint.TABLE_NAME}" table.`;
   public static ERROR_INSERT: string = `Failed to insert a row in "${DAOPoint.TABLE_NAME}" table.`;
   public static ERROR_UPDATE: string = `Failed to update a row in "${DAOPoint.TABLE_NAME}" table.`;
@@ -49,6 +50,31 @@ class DAOPoint extends SQLiteDAO {
         }
         resolve(row);
       });
+    });
+  }
+
+  public checkAndCreateEntry(userId: string): Promise<void> {
+    return new Promise((resolve: () => void, reject: (readon: Error) => void) => {
+      this.isExists(userId)
+        .then((isExists: boolean) => {
+          if (isExists) {
+            resolve();
+          } else {
+            const point: Point = new Point(userId);
+            this.insert(point)
+              .then(() => {
+                resolve();
+              })
+              .catch((err: Error) => {
+                console.error(DAOPoint.ERROR_CHECK_AND_CREATE);
+                reject(err);
+              });
+          }
+        })
+        .catch((err: Error) => {
+          console.error(DAOPoint.ERROR_CHECK_AND_CREATE);
+          reject(err);
+        });
     });
   }
 
