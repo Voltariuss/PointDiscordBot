@@ -1,7 +1,7 @@
 import { MessageEmbed } from 'discord.js';
 
 class MessageMaker {
-  
+
   public static setErrorMessage(message: MessageEmbed): MessageEmbed {
     message
       .setColor('RED')
