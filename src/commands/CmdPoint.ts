@@ -5,7 +5,7 @@ import { MessageMaker, Point, PointService } from '..';
 class CmdPoint extends Command {
 
   public static INTERNAL_ERROR_OCCURED: string = 'Une erreur interne a eu lieu.';
-  public static INVALID_ARGUMENTS: string = 'Argument invalide. Essayez "!point [(add|remove) <username> <quantité>]"';
+  public static INVALID_ARGUMENTS: string = 'Argument invalide. Essayez "!point [add|remove|reset|info] [user] [amount]"';
 
   public constructor(args: string[], message: Message) {
     super(args, message);
