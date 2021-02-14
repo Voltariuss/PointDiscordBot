@@ -1,5 +1,5 @@
-# Sn0wYzZ
-Discord Bot - Rewards for each bump/vote
+# PointDiscordBot
+Discord Bot - Point management system
 
 ## Install
 First, do `npm install`.
