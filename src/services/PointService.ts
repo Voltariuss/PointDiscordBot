@@ -1,5 +1,5 @@
 import { Database } from 'sqlite3';
-import { DAOPoint, DatabaseProvider, Point } from '..';
+import { DAOPoint, DatabaseManager, DatabaseProvider, Point } from '..';
 
 class PointService {
 
@@ -14,10 +14,12 @@ class PointService {
     const daoPoint: DAOPoint = new DAOPoint(database);
     let point: Point;
     try {
-      // TODO : transaction SQL
+      await DatabaseManager.startTransaction(database);
       await daoPoint.checkAndCreateEntry(userId);
       point = await daoPoint.read(userId);
+      await DatabaseManager.commitTransaction(database);
     } catch (err: any) {
+      await DatabaseManager.rollbackTransaction(database);
       if (err && err.message) {
         console.error(err.message);
       } else {
@@ -39,10 +41,12 @@ class PointService {
     database.serialize();
     const daoPoint: DAOPoint = new DAOPoint(database);
     try {
+      await DatabaseManager.startTransaction(database);
       await daoPoint.checkAndCreateEntry(userId);
-      console.log('TESST', point);
       await daoPoint.update(point);
+      await DatabaseManager.commitTransaction(database);
     } catch (err: any) {
+      await DatabaseManager.rollbackTransaction(database);
       if (err && err.message) {
         console.error(err.message);
       } else {
@@ -55,16 +59,39 @@ class PointService {
   }
 
   public static async addPoint(userId: string, number: number): Promise<void> {
-    const point: Point = await this.getPoint(userId);
-    const finalNumber: number = point.getNumber() + number;
-    await this.setPoint(userId, finalNumber);
+    console.debug('PointService.addPoint() method called.');
+    const databaseProvider: DatabaseProvider = new DatabaseProvider();
+    databaseProvider.openConnection();
+    const database: Database = databaseProvider.getConnection();
+    database.serialize();
+    const daoPoint: DAOPoint = new DAOPoint(database);
+    try {
+      await DatabaseManager.startTransaction(database);
+      await daoPoint.checkAndCreateEntry(userId);
+      const point: Point = await daoPoint.read(userId);
+      point.setNumber(point.getNumber() + number);
+      await daoPoint.update(point);
+      await DatabaseManager.commitTransaction(database);
+    } catch (err: any) {
+      await DatabaseManager.rollbackTransaction(database);
+      if (err && err.message) {
+        console.error(err.message);
+      } else {
+        console.error(PointService.ERROR_UNKNOWN);
+      }
+      throw err;
+    } finally {
+      databaseProvider.closeConnection();
+    }
   }
 
   public static async removePoint(userId: string, number: number): Promise<void> {
+    console.debug('PointService.removePoint() method called.');
     await this.addPoint(userId, -number);
   }
 
   public static async resetPoint(userId: string): Promise<void> {
+    console.debug('PointService.resetPoint() method called.');
     await this.setPoint(userId, 0);
   }
 
@@ -76,8 +103,11 @@ class PointService {
     database.serialize();
     const daoPoint: DAOPoint = new DAOPoint(database);
     try {
+      await DatabaseManager.startTransaction(database);
       await daoPoint.delete(userId);
+      await DatabaseManager.commitTransaction(database);
     } catch (err: any) {
+      await DatabaseManager.rollbackTransaction(database);
       if (err && err.message) {
         console.error(err.message);
       } else {

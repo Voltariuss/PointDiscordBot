@@ -1,5 +1,4 @@
 import { Database } from 'sqlite3';
-import * as _ from 'lodash';
 
 class DatabaseManager {
 
