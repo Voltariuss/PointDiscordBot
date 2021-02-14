@@ -1,5 +1,5 @@
 # PointDiscordBot
-Discord Bot - Point management system
+Discord Bot - Point management system with NodeJS
 
 ## Install
 First, do `npm install`.
