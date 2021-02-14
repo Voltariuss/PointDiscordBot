@@ -105,3 +105,6 @@ dist
 
 # SQLite database
 *.db
+
+# VSCode
+.vscode/
