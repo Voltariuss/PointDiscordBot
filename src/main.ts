@@ -1,27 +1,29 @@
-import { Command, CommandFactory, CommandManager } from '.';
-import { Client, Message } from 'discord.js';
+import { Client } from 'discord.js';
 
-const client: Client = new Client();
+class Main {
 
-client.on('ready', () => {
-  if (client.user) {
-    console.log(`Logged in as ${client.user.tag}!`);
-  } else {
-    console.error('Unknown user');
-  }
-});
+  private static main: Main;
 
-client.on('message', (message: Message) => {
-  if (message.channel.type === 'text') {
-    const content: string = message.content;
-    if (CommandManager.isCommand(content)) {
-      const cmdArgs: string[] = CommandManager.getCommandArgs(content);
-      const command: Command = CommandFactory.createCommand(cmdArgs, message);
-      if (command) {
-        command.execute();
-      }
+  public static getInstance(): Main {
+    if (!this.main) {
+      this.main = new Main();
     }
+    return this.main;
   }
-});
 
-client.login('ODA1ODU1NTU2OTMzOTEwNjE4.YBg9eA.xjt4bvZyw429rhOrE9BU8SqyB1c');
+  private client: Client;
+
+  private constructor() {
+    this.setClient(new Client());
+  }
+
+  public getClient(): Client {
+    return this.client;
+  }
+
+  private setClient(client: Client): void {
+    this.client = client;
+  }
+}
+
+export { Main };
