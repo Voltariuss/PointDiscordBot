@@ -25,6 +25,7 @@ class DAOPoint extends SQLiteDAO {
   }
 
   public createTable(): Promise<void> {
+    console.debug('DAOPoint.createTable() method called.');
     return new Promise((resolve: () => void, reject: (reason: Error) => void) => {
       console.log(DAOPoint.INFO_CREATING_TABLE);
       const sqlQueries: string = fs.readFileSync(path.resolve(DatabaseProvider.SCRIPT_DIR, DAOPoint.SCRIPT_TABLE)).toString();
@@ -40,6 +41,7 @@ class DAOPoint extends SQLiteDAO {
   }
 
   public isExists(userId: string): Promise<boolean> {
+    console.debug('DAOPoint.isExists() method called.');
     return new Promise((resolve: (value: boolean) => void, reject: (reason: Error) => void) => {
       this.getDatabase().get(`SELECT 1 FROM ${DAOPoint.TABLE_NAME} WHERE userId = $userId`, {
         $userId: userId
@@ -54,6 +56,7 @@ class DAOPoint extends SQLiteDAO {
   }
 
   public checkAndCreateEntry(userId: string): Promise<void> {
+    console.debug('DAOPoint.checkAndCreateEntry() method called.');
     return new Promise((resolve: () => void, reject: (readon: Error) => void) => {
       this.isExists(userId)
         .then((isExists: boolean) => {
@@ -79,13 +82,14 @@ class DAOPoint extends SQLiteDAO {
   }
 
   public read(userId: string): Promise<Point> {
+    console.debug('DAOPoint.read() method called.');
     return new Promise((resolve: (value: Point) => void, reject: (reason: Error) => void) => {
       this.createTable()
         .then(() => {
           this.getDatabase().get(`SELECT * FROM ${DAOPoint.TABLE_NAME} WHERE userId = $userId`, {
             $userId: userId
           }, (err: Error, row: any) => {
-            if (err || !row || !row.number) {
+            if (err || !row || row.number === undefined) {
               console.error(DAOPoint.ERROR_READ);
               reject(err);
             }
@@ -101,6 +105,7 @@ class DAOPoint extends SQLiteDAO {
   }
 
   public insert(point: Point): Promise<void> {
+    console.debug('DAOPoint.insert() method called.');
     return new Promise((resolve: () => void, reject: (reason: Error) => void) => {
       this.createTable()
         .then(() => {
@@ -123,6 +128,7 @@ class DAOPoint extends SQLiteDAO {
   }
 
   public update(point: Point): Promise<void> {
+    console.debug('DAOPoint.update() method called.');
     return new Promise((resolve: () => void, reject: (reason: Error) => void) => {
       this.createTable()
         .then(() => {
@@ -145,6 +151,7 @@ class DAOPoint extends SQLiteDAO {
   }
 
   public delete(userId: string): Promise<void> {
+    console.debug('DAOPoint.delete() method called.');
     return new Promise((resolve: () => void, reject: (reason: Error) => void) => {
       this.createTable()
         .then(() => {

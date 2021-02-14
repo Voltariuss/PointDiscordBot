@@ -7,6 +7,7 @@ class PointService {
   public static ERROR_UNKNOWN: string = 'Unknown error';
 
   public static async getPoint(user: User): Promise<Point> {
+    console.debug('PointService.getPoint() method called.');
     const databaseProvider: DatabaseProvider = new DatabaseProvider();
     databaseProvider.openConnection();
     const database: Database = databaseProvider.getConnection();
@@ -30,6 +31,7 @@ class PointService {
   }
 
   public static async setPoint(user: User, number: number): Promise<void> {
+    console.debug('PointService.setPoint() method called.');
     const point: Point = new Point(user.id, number);
     const databaseProvider: DatabaseProvider = new DatabaseProvider();
     databaseProvider.openConnection();
@@ -62,6 +64,7 @@ class PointService {
   }
 
   public static async removeUser(user: User): Promise<void> {
+    console.debug('PointService.removeUser() method called.');
     const databaseProvider: DatabaseProvider = new DatabaseProvider();
     databaseProvider.openConnection();
     const database: Database = databaseProvider.getConnection();
